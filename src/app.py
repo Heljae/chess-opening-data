@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+from time import sleep
 import dotenv
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
@@ -48,15 +49,18 @@ def rating_classes(rating):
 
 
 # Gets game data by year since this data is not included and stores it in a dataframe
-#  TODO also include data about timecontrol. Also this is not optimal :(
 years, ratings, games_played, openings, timecontrol = [], [], [], [], []
 # There is much less data from years before 2015
+#range(2015, 2027)
+#["bullet", "blitz", "rapid", "classical"]
 for year in range(2015, 2027):
     for time in ["bullet", "blitz", "rapid", "classical"]:
         data = get_data(year, time)
+        sleep(1)
         print(data)
         all_games = data["white"]+data["draws"]+data["black"]
         for move in data["moves"]:
+            print(move, year, time)
             years.append(year)
             timecontrol.append(time)
             games_played.append((move["white"] + move["black"] + move["draws"])/all_games)
