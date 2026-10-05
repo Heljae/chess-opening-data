@@ -1,5 +1,7 @@
 import app
 
+ratings = [1000,1200,1400,1600,1800,2000,2200,2400]
+
 def rating_classes(rating):
     match rating:
         case r if r in range(1200):
@@ -19,4 +21,20 @@ def rating_classes(rating):
         case _:
             return None
 
-data = app.get_data()
+times = ["bullet", "blitz", "rapid", "classical"]
+
+totals = []
+for time in times:
+    data = app.get_data(2025, time)
+    total = data["white"]+data["draws"]+data["black"]
+    moves = []
+
+    total2 = 0
+    for opening in data["moves"]:
+        total2 += opening["white"]+opening["draws"]+opening["black"]
+
+    totals.append((total, total2, len(data["moves"])))
+
+[print(i) for i in totals]
+
+
